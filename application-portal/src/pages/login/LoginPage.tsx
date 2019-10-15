@@ -1,14 +1,17 @@
 import React, { Component } from "react";
-import { Text, View, Image, StyleSheet } from "react-native";
-import { Content, Form, Item, Label, Input } from "react-native";
+import { View, Image, StyleSheet } from "react-native";
+import { Content, Form, Item, Label, Input } from "native-base";
 
-export class App extends Component {
+export class LoginPage extends Component {
+  static navigationOptions = {
+    title: "LoginPage"
+  };
   render() {
     return (
       <View>
         <Image
           style={styles.banpuLogo}
-          source={require("./src/assets/images/banpu_logo.png")}
+          source={require("../../../assets/images/banpu_logo.png")}
         />
         <Content>
           <Form>
