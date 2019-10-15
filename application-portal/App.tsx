@@ -1,8 +1,11 @@
 import React, { Component } from 'react'
-import { Text, View, StyleSheet, Platform } from 'react-native'
+import {View, StyleSheet, Platform, Linking } from 'react-native'
+import { Button, Text } from 'native-base'; 
 import * as Font from 'expo-font';
 import { Ionicons } from '@expo/vector-icons';
 import { AppLoading } from "expo";
+import {AppLink} from 'react-native-app-link';
+import { AppInstalledChecker, CheckPackageInstallation } from 'react-native-check-app-install';
 
 import { createAppContainer } from "react-navigation";
 import { createStackNavigator } from "react-navigation-stack";
@@ -39,7 +42,12 @@ export default class App extends Component {
       ...Ionicons.font
     });
     this.setState({ isReady: true });
-   
+
+    
+  }
+
+  buttonClick = () => {
+
   }
 
   render() {
@@ -48,7 +56,23 @@ export default class App extends Component {
     }
 
     return (
-      <AppContainer/>
+      <View>
+      
+      <Button full onPress={(this.buttonClick = () =>{
+      if(Platform.OS == 'android'){
+        console.log('android');
+        // Linking.openURL('twitter://timeline')
+        Linking.openURL('https://lihweb.banpu.co.th/mobile/package/LIH-Production.apk')
+      }else{
+        console.log('ios');
+        Linking.openURL(
+          `https://buy.itunes.apple.com/WebObjects/MZFinance.woa/wa/freeProductCodeWizard?code=JNTYXJTRAPHX`
+        );
+      }
+     
+      })}><Text>test</Text></Button>
+      </View>
+
     );
   }
 }
