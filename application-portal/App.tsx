@@ -1,15 +1,15 @@
-import React, { Component } from 'react'
-import { Text, View, StyleSheet, Platform } from 'react-native'
-import * as Font from 'expo-font';
-import { Ionicons } from '@expo/vector-icons';
+import React, { Component } from "react";
+import { Text, View, StyleSheet, Platform } from "react-native";
+import * as Font from "expo-font";
+import { Ionicons } from "@expo/vector-icons";
 import { AppLoading } from "expo";
 
 import { createAppContainer } from "react-navigation";
 import { createStackNavigator } from "react-navigation-stack";
-import LoginPage from './src/pages/login/LoginPage';
-import ForgotPage from './src/pages/login/ForgotPage';
-import RedeemPage from './src/pages/login/RedeemPage';
-import HomePage from './src/pages/home/HomePage';
+import LoginPage from "./src/pages/login/LoginPage";
+import ForgotPage from "./src/pages/login/ForgotPage";
+import RedeemPage from "./src/pages/login/RedeemPage";
+import HomePage from "./src/pages/home/HomePage";
 
 interface IProps {}
 
@@ -21,13 +21,13 @@ const AppNavigator = createStackNavigator({
   LoginPage: { screen: LoginPage },
   ForgotPage: { screen: ForgotPage },
   RedeemPage: { screen: RedeemPage },
-  HomePage: { screen: HomePage }
+  HomePage: { screen: HomePage },
+  LogoutPage: { screen: LoginPage }
 });
 
 const AppContainer = createAppContainer(AppNavigator);
 
-export default class App extends Component {
-
+export default class App extends Component<IProps, IState> {
   readonly state: IState = {
     isReady: false
   };
@@ -39,7 +39,6 @@ export default class App extends Component {
       ...Ionicons.font
     });
     this.setState({ isReady: true });
-   
   }
 
   render() {
@@ -47,13 +46,9 @@ export default class App extends Component {
       return <AppLoading />;
     }
 
-    return (
-      <AppContainer/>
-    );
+    return <AppContainer />;
   }
 }
-
-
 
 const styles = StyleSheet.create({
   container: {
