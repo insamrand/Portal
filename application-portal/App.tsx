@@ -1,18 +1,25 @@
+<<<<<<< HEAD
 import React, { Component } from 'react'
 import {View, StyleSheet, Platform, Linking } from 'react-native'
 import { Button, Text } from 'native-base'; 
 import * as Font from 'expo-font';
 import { Ionicons } from '@expo/vector-icons';
+=======
+import React, { Component } from "react";
+import { Text, View, StyleSheet, Platform } from "react-native";
+import * as Font from "expo-font";
+import { Ionicons } from "@expo/vector-icons";
+>>>>>>> a292e321a307f617b652ead858ab14220b0590be
 import { AppLoading } from "expo";
 import {AppLink} from 'react-native-app-link';
 import { AppInstalledChecker, CheckPackageInstallation } from 'react-native-check-app-install';
 
 import { createAppContainer } from "react-navigation";
 import { createStackNavigator } from "react-navigation-stack";
-import LoginPage from './src/pages/login/LoginPage';
-import ForgotPage from './src/pages/login/ForgotPage';
-import RedeemPage from './src/pages/login/RedeemPage';
-import HomePage from './src/pages/home/HomePage';
+import LoginPage from "./src/pages/login/LoginPage";
+import ForgotPage from "./src/pages/login/ForgotPage";
+import RedeemPage from "./src/pages/login/RedeemPage";
+import HomePage from "./src/pages/home/HomePage";
 
 interface IProps {}
 
@@ -24,13 +31,13 @@ const AppNavigator = createStackNavigator({
   LoginPage: { screen: LoginPage },
   ForgotPage: { screen: ForgotPage },
   RedeemPage: { screen: RedeemPage },
-  HomePage: { screen: HomePage }
+  HomePage: { screen: HomePage },
+  LogoutPage: { screen: LoginPage }
 });
 
 const AppContainer = createAppContainer(AppNavigator);
 
-export default class App extends Component {
-
+export default class App extends Component<IProps, IState> {
   readonly state: IState = {
     isReady: false
   };
@@ -42,12 +49,15 @@ export default class App extends Component {
       ...Ionicons.font
     });
     this.setState({ isReady: true });
+<<<<<<< HEAD
 
     
   }
 
   buttonClick = () => {
 
+=======
+>>>>>>> a292e321a307f617b652ead858ab14220b0590be
   }
 
   render() {
@@ -55,6 +65,7 @@ export default class App extends Component {
       return <AppLoading />;
     }
 
+<<<<<<< HEAD
     return (
       <View>
       
@@ -74,17 +85,22 @@ export default class App extends Component {
       </View>
 
     );
+=======
+    return <AppContainer />;
+>>>>>>> a292e321a307f617b652ead858ab14220b0590be
   }
 }
-
-
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "#fff",
+    alignItems: "center",
+    justifyContent: "center"
   },
+  banpuLogo: {
+    width: 42,
+    height: 100,
+    resizeMode: "contain"
+  }
 });
-
