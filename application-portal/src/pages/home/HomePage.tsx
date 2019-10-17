@@ -11,6 +11,8 @@ import {
 import HomeItems from "./HomeItems";
 
 export default class HomePage extends Component<any> {
+  [x: string]: any;
+
   componentWillMount() {
     this.backHandler = BackHandler.addEventListener(null, () => {
       return true;
@@ -72,7 +74,7 @@ export default class HomePage extends Component<any> {
             marginBottom: 80
           }}
         >
-          <HomeItems></HomeItems>
+          <HomeItems />
         </ScrollView>
       </SafeAreaView>
     );

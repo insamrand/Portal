@@ -1,92 +1,33 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { StyleSheet } from "react-native";
-import { Container, Content, List, ListItem, Text } from "native-base";
+import { StyleSheet, View, Image, Text } from "react-native";
+import { Container, Content, List, ListItem, Item } from "native-base";
 import { connect } from "react-redux";
 
-export class HomeItems extends Component {
-  static propTypes = {
-    items: PropTypes
-  };
-
-  static defaultProps = {
-    items: [{ title: "a" }, { title: "b" }, { title: "c" }, { title: "d" }]
-  };
-
+export class HomeItems extends Component<any> {
   render() {
     return (
-      <Container>
-        <Content>
-          <List>
-            {this.props.items.map((item, index) => {
-              return (
-                <ListItem key={index}>
-                  <Text>{item.title}</Text>
-                </ListItem>
-              );
-            })}
-          </List>
-        </Content>
-      </Container>
+      <View style={styles.flexContainer}>
+        {this.props.items.map((item, index) => {
+          return (
+            <View style={styles.flexItems} key={index}>
+              <View style={{ marginBottom: 10 }}>
+                <Image style={{ width: 75, height: 75 }} source={item.image} />
+              </View>
+              <Text style={{ fontSize: 12 }}>{item.title}</Text>
+            </View>
+          );
+        })}
+      </View>
     );
-    // return (
-    //   <View
-    //     style={{
-    //       flexDirection: "row",
-    //       flexWrap: "wrap"
-    //     }}
-    //   >
-    //     <View style={styles.flexItems}>
-    //       <View style={{ marginBottom: 10 }}>
-    //         <Image
-    //           style={{ width: 75, height: 75 }}
-    //           source={require("../../../assets/images/icon/snapchat.png")}
-    //         />
-    //       </View>
-    //       <Text style={{ fontSize: 12 }}>Snapchat</Text>
-    //     </View>
-    //     <View style={styles.flexItems}>
-    //       <View style={{ marginBottom: 10 }}>
-    //         <Image
-    //           style={{ width: 75, height: 75 }}
-    //           source={require("../../../assets/images/icon/snapchat.png")}
-    //         />
-    //       </View>
-    //       <Text style={{ fontSize: 12 }}>Snapchat</Text>
-    //     </View>
-    //     <View style={styles.flexItems}>
-    //       <View style={{ marginBottom: 10 }}>
-    //         <Image
-    //           style={{ width: 75, height: 75 }}
-    //           source={require("../../../assets/images/icon/snapchat.png")}
-    //         />
-    //       </View>
-    //       <Text style={{ fontSize: 12 }}>Snapchat</Text>
-    //     </View>
-    //     <View style={styles.flexItems}>
-    //       <View style={{ marginBottom: 10 }}>
-    //         <Image
-    //           style={{ width: 75, height: 75 }}
-    //           source={require("../../../assets/images/icon/snapchat.png")}
-    //         />
-    //       </View>
-    //       <Text style={{ fontSize: 12 }}>Snapchat</Text>
-    //     </View>
-    //     <View style={styles.flexItems}>
-    //       <View style={{ marginBottom: 10 }}>
-    //         <Image
-    //           style={{ width: 75, height: 75 }}
-    //           source={require("../../../assets/images/icon/snapchat.png")}
-    //         />
-    //       </View>
-    //       <Text style={{ fontSize: 12 }}>Snapchat</Text>
-    //     </View>
-    //   </View>
-    // );
   }
 }
 
 const styles = StyleSheet.create({
+  flexContainer: {
+    flexDirection: "row",
+    flexWrap: "wrap"
+  },
   flexItems: {
     width: "33.33%",
     paddingVertical: 20,
@@ -95,7 +36,13 @@ const styles = StyleSheet.create({
   }
 });
 
-const mapStateToProps = (state: any) => ({});
+const mapStateToProps = (state: any) => {
+  console.log(state.home);
+  console.log(state.home.items.image);
+  return {
+    items: state.home.items
+  };
+};
 
 const mapDispatchToProps = {};
 

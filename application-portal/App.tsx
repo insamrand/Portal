@@ -14,11 +14,7 @@ import ForgotPage from "./src/pages/login/ForgotPage";
 import RedeemPage from "./src/pages/login/RedeemPage";
 import HomePage from "./src/pages/home/HomePage";
 
-interface IProps {}
-
-interface IState {
-  isReady: boolean;
-}
+const store = configureStore();
 
 const AppNavigator = createStackNavigator({
   LoginPage: { screen: LoginPage },
@@ -29,9 +25,9 @@ const AppNavigator = createStackNavigator({
 });
 
 const AppContainer = createAppContainer(AppNavigator);
-const store = configureStore();
-export default class App extends Component<IProps, IState> {
-  readonly state: IState = {
+
+export default class App extends Component<any> {
+  readonly state = {
     isReady: false
   };
 
