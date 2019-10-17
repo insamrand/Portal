@@ -6,6 +6,9 @@ import { AppLoading } from "expo";
 
 import { createAppContainer } from "react-navigation";
 import { createStackNavigator } from "react-navigation-stack";
+import { Provider } from "react-redux";
+import configureStore from "./src/redux/stores";
+
 import LoginPage from "./src/pages/login/LoginPage";
 import ForgotPage from "./src/pages/login/ForgotPage";
 import RedeemPage from "./src/pages/login/RedeemPage";
@@ -26,7 +29,7 @@ const AppNavigator = createStackNavigator({
 });
 
 const AppContainer = createAppContainer(AppNavigator);
-
+const store = configureStore();
 export default class App extends Component<IProps, IState> {
   readonly state: IState = {
     isReady: false
@@ -46,7 +49,11 @@ export default class App extends Component<IProps, IState> {
       return <AppLoading />;
     }
 
-    return <AppContainer />;
+    return (
+      <Provider store={store}>
+        <AppContainer />
+      </Provider>
+    );
   }
 }
 

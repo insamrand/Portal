@@ -5,18 +5,20 @@ import {
   Text,
   SafeAreaView,
   ScrollView,
-  BackHandler
+  BackHandler,
+  TouchableOpacity
 } from "react-native";
 import HomeItems from "./HomeItems";
-import { TouchableOpacity } from "react-native-gesture-handler";
 
 export default class HomePage extends Component<any> {
   componentWillMount() {
-    BackHandler.addEventListener("hardwareBackPress", () => {
-      // this.onMainScreen and this.goBack are just examples, you need to use your own implementation here
-      // Typically you would use the navigator here to go to the last state.
+    this.backHandler = BackHandler.addEventListener(null, () => {
       return true;
     });
+  }
+
+  componentWillUnmount() {
+    this.backHandler.remove();
   }
 
   static navigationOptions = ({ navigation }) => ({
@@ -44,15 +46,6 @@ export default class HomePage extends Component<any> {
       </TouchableOpacity>
     )
   });
-
-  _Logout() {
-    () => this.props.navigation.navigate("LogoutPage");
-    console.log("WOrk");
-  }
-
-  componentDidMount() {
-    this.props.navigation.setParams({ Logout: this._Logout });
-  }
 
   render() {
     return (
