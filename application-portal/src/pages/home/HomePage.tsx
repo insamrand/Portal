@@ -61,7 +61,7 @@ export default class HomePage extends Component<any> {
           style={{
             justifyContent: "center",
             alignItems: "center",
-            marginVertical: 20
+            marginVertical: 20,
           }}
         >
           <View style={{ marginBottom: 10 }}>
@@ -72,15 +72,21 @@ export default class HomePage extends Component<any> {
           </View>
           <Text style={{ fontSize: 25 }}>Banpu App Portal</Text>
         </View>
+      
         <ScrollView
           style={{
             backgroundColor: "rgba(72, 47, 146,.5)",
             padding: 20,
-            marginBottom: 80
+            // marginBottom: 80,
+            height: '100%'
           }}
         >
-          <HomeItems></HomeItems>
+   
+          <HomeItems/>
+  
         </ScrollView>
+     
+        
       </SafeAreaView>
     );
   }

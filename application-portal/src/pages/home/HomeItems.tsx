@@ -1,8 +1,83 @@
 import React, { Component } from "react";
 import { Text, View, Image, StyleSheet } from "react-native";
 
-export default class HomeItems extends Component {
+interface IState {
+  AppItem: any[];
+}
+
+export default class HomeItems extends Component<IState> {
+  state: IState;
+
   render() {
+    this.state = {
+      AppItem: [
+        {
+          name: "snapchat",
+          img:
+            "https://images.pexels.com/photos/1236701/pexels-photo-1236701.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260",
+        },
+        {
+          name: "snapchat",
+          img:
+            "https://images.pexels.com/photos/1236701/pexels-photo-1236701.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260",
+        },
+        {
+          name: "snapchat",
+          img:
+            "https://images.pexels.com/photos/1236701/pexels-photo-1236701.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260",
+        },
+        {
+          name: "snapchat",
+          img:
+            "https://images.pexels.com/photos/1236701/pexels-photo-1236701.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260",
+        },
+        {
+          name: "snapchat",
+          img:
+            "https://images.pexels.com/photos/1236701/pexels-photo-1236701.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260",
+        },
+        {
+          name: "snapchat",
+          img:
+            "https://images.pexels.com/photos/1236701/pexels-photo-1236701.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260",
+        },
+        {
+          name: "snapchat",
+          img:
+            "https://images.pexels.com/photos/1236701/pexels-photo-1236701.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260",
+        },
+        {
+          name: "snapchat",
+          img:
+            "https://images.pexels.com/photos/1236701/pexels-photo-1236701.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260",
+        },
+        {
+          name: "snapchat",
+          img:
+            "https://images.pexels.com/photos/1236701/pexels-photo-1236701.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260",
+        },
+        {
+          name: "snapchat",
+          img:
+            "https://images.pexels.com/photos/1236701/pexels-photo-1236701.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260",
+        },
+        {
+          name: "snapchat",
+          img:
+            "https://images.pexels.com/photos/1236701/pexels-photo-1236701.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260",
+        },
+        {
+          name: "snapchat",
+          img:
+            "https://images.pexels.com/photos/1236701/pexels-photo-1236701.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260",
+        },
+        {
+          name: "snapchat",
+          img:
+            "https://images.pexels.com/photos/1236701/pexels-photo-1236701.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260",
+        }
+      ]
+    };
     return (
       <View
         style={{
@@ -10,51 +85,19 @@ export default class HomeItems extends Component {
           flexWrap: "wrap"
         }}
       >
-        <View style={styles.flexItems}>
-          <View style={{ marginBottom: 10 }}>
-            <Image
-              style={{ width: 75, height: 75 }}
-              source={require("../../../assets/images/icon/snapchat.png")}
-            />
-          </View>
-          <Text style={{ fontSize: 12 }}>Snapchat</Text>
-        </View>
-        <View style={styles.flexItems}>
-          <View style={{ marginBottom: 10 }}>
-            <Image
-              style={{ width: 75, height: 75 }}
-              source={require("../../../assets/images/icon/snapchat.png")}
-            />
-          </View>
-          <Text style={{ fontSize: 12 }}>Snapchat</Text>
-        </View>
-        <View style={styles.flexItems}>
-          <View style={{ marginBottom: 10 }}>
-            <Image
-              style={{ width: 75, height: 75 }}
-              source={require("../../../assets/images/icon/snapchat.png")}
-            />
-          </View>
-          <Text style={{ fontSize: 12 }}>Snapchat</Text>
-        </View>
-        <View style={styles.flexItems}>
-          <View style={{ marginBottom: 10 }}>
-            <Image
-              style={{ width: 75, height: 75 }}
-              source={require("../../../assets/images/icon/snapchat.png")}
-            />
-          </View>
-          <Text style={{ fontSize: 12 }}>Snapchat</Text>
-        </View>
-        <View style={styles.flexItems}>
-          <View style={{ marginBottom: 10 }}>
-            <Image
-              style={{ width: 75, height: 75 }}
-              source={require("../../../assets/images/icon/snapchat.png")}
-            />
-          </View>
-          <Text style={{ fontSize: 12 }}>Snapchat</Text>
-        </View>
+        {this.state.AppItem.map((item, index) => {
+          return (
+            <View key={index} style={styles.flexItems}>
+              <View style={{ marginBottom: 10 }}>
+                <Image
+                  style={{ width: 75, height: 75 }}
+                  source={{ uri: item.img }}
+                />
+              </View>
+              <Text style={{ fontSize: 12 }}>{item.name}</Text>
+            </View>
+          );
+        })}
       </View>
     );
   }
