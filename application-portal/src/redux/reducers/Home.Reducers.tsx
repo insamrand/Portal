@@ -1,25 +1,5 @@
 import Actions from "../actions/Home.Actions";
-
-const initialState = {
-  items: [
-    {
-      image: require("../../../assets/images/icon/snapchat.png"),
-      title: "Snapchat"
-    },
-    {
-      image: require("../../../assets/images/icon/snapchat.png"),
-      title: "Snapchat"
-    },
-    {
-      image: require("../../../assets/images/icon/snapchat.png"),
-      title: "Snapchat"
-    },
-    {
-      image: require("../../../assets/images/icon/snapchat.png"),
-      title: "Snapchat"
-    }
-  ]
-};
+import initialState from "../dtos/Home.DTO";
 
 export default (state = initialState, { type, payload }) => {
   switch (type) {
