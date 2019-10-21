@@ -1,28 +1,41 @@
 import React, { Component } from "react";
 import {
+  StyleSheet,
   Image,
   View,
   Text,
   SafeAreaView,
   ScrollView,
   BackHandler,
-  TouchableOpacity
+  TouchableOpacity,
+  Linking
 } from "react-native";
+import { connect } from "react-redux";
 import HomeItems from "./HomeItems";
 
-export default class HomePage extends Component<any> {
-  [x: string]: any;
-
+class HomePage extends Component<any> {
   componentWillMount() {
-    this.backHandler = BackHandler.addEventListener(null, () => {
-      return true;
-    });
+    BackHandler.addEventListener("hardwareBackPress", this._BackHandler);
   }
 
   componentWillUnmount() {
-    this.backHandler.remove();
+    BackHandler.removeEventListener("hardwareBackPress", this._BackHandler);
   }
 
+  _BackHandler = () => {
+    BackHandler.exitApp();
+    return true;
+  };
+
+  // _handleOpenWithLinking = () => {
+  //   Linking.canOpenURL("fb://").then(supported => {
+  //     if (supported) {
+  //       return Linking.openURL("fb://");
+  //     } else {
+  //       return Linking.openURL("https://www.facebook.com/");
+  //     }
+  //   });
+  // };
   static navigationOptions = ({ navigation }) => ({
     title: "Portal Application",
     gesturesEnabled: false,
@@ -37,12 +50,7 @@ export default class HomePage extends Component<any> {
     headerRight: (
       <TouchableOpacity onPress={() => navigation.navigate("LoginPage")}>
         <Image
-          style={{
-            width: 25,
-            height: 25,
-            marginRight: 15,
-            tintColor: "#ffffff"
-          }}
+          style={styles.imageLogout}
           source={require("../../../assets/images/icon/logout.png")}
         />
       </TouchableOpacity>
@@ -51,32 +59,113 @@ export default class HomePage extends Component<any> {
 
   render() {
     return (
-      <SafeAreaView>
-        <View
-          style={{
-            justifyContent: "center",
-            alignItems: "center",
-            marginVertical: 20
-          }}
-        >
-          <View style={{ marginBottom: 10 }}>
+      <SafeAreaView style={[styles.containerFluid, styles.containerColor]}>
+        <View style={styles.containerView}>
+          <View style={styles.containerImage}>
             <Image
               style={{ width: 42, height: 100 }}
               source={require("../../../assets/images/banpu_logo.png")}
             />
           </View>
-          <Text style={{ fontSize: 25 }}>Banpu App Portal</Text>
+          <View style={styles.borderLine}>
+            <Text style={{ fontSize: 25, textAlign: "center" }}>
+              Banpu App Portal
+            </Text>
+          </View>
         </View>
-        <ScrollView
-          style={{
-            backgroundColor: "rgba(72, 47, 146,.5)",
-            padding: 20,
-            marginBottom: 80
-          }}
-        >
-          <HomeItems />
+        <ScrollView contentContainerStyle={styles.containerScrollView}>
+          <View style={styles.containerItems}>
+            <HomeItems {...this.props} />
+          </View>
+          <TouchableOpacity
+            onPress={() => {
+              console.log("Work");
+            }}
+          >
+            <Text>Console.Log</Text>
+          </TouchableOpacity>
         </ScrollView>
       </SafeAreaView>
     );
   }
 }
+
+const styles = StyleSheet.create({
+  containerFluid: {
+    flex: 1,
+    flexDirection: "column",
+    justifyContent: "flex-start",
+    alignItems: "center"
+  },
+  containerColor: {
+    backgroundColor: "rgba(72, 47, 146,.1)"
+  },
+  containerScrollView: {
+    flexGrow: 1,
+    justifyContent: "center"
+  },
+  containerView: {
+    alignSelf: "stretch",
+    marginTop: 105,
+    marginHorizontal: 20,
+    borderTopRightRadius: 15,
+    borderTopLeftRadius: 15,
+    backgroundColor: "rgba(255, 255, 255,.8)"
+  },
+  containerImage: {
+    width: 150,
+    height: 150,
+    borderRadius: 100,
+    marginTop: -75,
+    justifyContent: "center",
+    alignItems: "center",
+    alignSelf: "center",
+    backgroundColor: "#ffffff",
+    borderColor: "rgba(72, 47, 146,.1)",
+    borderWidth: 5
+  },
+  borderLine: {
+    paddingBottom: 20,
+    marginBottom: 10,
+    marginHorizontal: 20,
+    borderBottomWidth: 2,
+    borderColor: "#482f92"
+  },
+  containerItemsTop: {
+    flex: 1,
+    height: 30,
+    width: "100%",
+    marginHorizontal: 20,
+    borderTopRightRadius: 15,
+    borderTopLeftRadius: 15,
+    backgroundColor: "rgba(255, 255, 255,.8)"
+  },
+  containerItems: {
+    flex: 1,
+    marginBottom: 20,
+    marginHorizontal: 20,
+    borderBottomRightRadius: 15,
+    borderBottomLeftRadius: 15,
+    backgroundColor: "rgba(255, 255, 255,.8)"
+  },
+  imageLogout: {
+    width: 25,
+    height: 25,
+    marginRight: 15,
+    tintColor: "#ffffff"
+  }
+});
+
+const mapStateToProps = (state: any) => {
+  console.log(state.home.items);
+  return {
+    items: state.home.items
+  };
+};
+
+const mapDispatchToProps = {};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(HomePage);

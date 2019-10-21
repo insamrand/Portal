@@ -77,6 +77,9 @@ export default class ForgotPage extends Component<any> {
                 source={require("../../../assets/images/banpu_logo.png")}
               />
             </View>
+            <Text style={{ fontSize: 25, textAlign: "center" }}>
+              Banpu App Portal
+            </Text>
             <TouchableOpacity style={{ marginTop: 30 }}>
               <TextInput
                 maxLength={100}

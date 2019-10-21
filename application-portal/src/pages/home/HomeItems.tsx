@@ -1,21 +1,44 @@
 import React, { Component } from "react";
-import PropTypes from "prop-types";
-import { StyleSheet, View, Image, Text } from "react-native";
-import { Container, Content, List, ListItem, Item } from "native-base";
-import { connect } from "react-redux";
+import {
+  StyleSheet,
+  View,
+  Image,
+  Text,
+  TouchableOpacity,
+  Linking,
+  Platform
+} from "react-native";
 
-export class HomeItems extends Component<any> {
+export default class HomeItems extends Component<any> {
+  _handleOpenWithLinking = (item: any) => {
+    console.log(item.title, "Working");
+    Linking.canOpenURL(item.app).then(supported => {
+      let isAndroid = Platform.OS === "android";
+      if (supported) {
+        return Linking.openURL(item.app);
+        // return Linking.openURL(isAndroid ? item.androidApp : item.appleApp);
+      } else {
+        return Linking.openURL(isAndroid ? item.androidLink : item.appleLink);
+      }
+    });
+  };
   render() {
     return (
       <View style={styles.flexContainer}>
         {this.props.items.map((item, index) => {
           return (
-            <View style={styles.flexItems} key={index}>
+            <TouchableOpacity
+              style={styles.flexItems}
+              key={index}
+              onPress={() => {
+                this._handleOpenWithLinking(item);
+              }}
+            >
               <View style={{ marginBottom: 10 }}>
                 <Image style={{ width: 75, height: 75 }} source={item.image} />
               </View>
               <Text style={{ fontSize: 12 }}>{item.title}</Text>
-            </View>
+            </TouchableOpacity>
           );
         })}
       </View>
@@ -25,28 +48,14 @@ export class HomeItems extends Component<any> {
 
 const styles = StyleSheet.create({
   flexContainer: {
+    flex: 1,
     flexDirection: "row",
     flexWrap: "wrap"
   },
   flexItems: {
-    width: "33.33%",
-    paddingVertical: 20,
+    width: "33.3333%",
+    paddingVertical: 15,
     justifyContent: "center",
     alignItems: "center"
   }
 });
-
-const mapStateToProps = (state: any) => {
-  console.log(state.home);
-  console.log(state.home.items.image);
-  return {
-    items: state.home.items
-  };
-};
-
-const mapDispatchToProps = {};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(HomeItems);

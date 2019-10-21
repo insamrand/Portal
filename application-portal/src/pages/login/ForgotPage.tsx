@@ -77,6 +77,9 @@ export default class ForgotPage extends Component<any> {
                 source={require("../../../assets/images/banpu_logo.png")}
               />
             </View>
+            <Text style={{ fontSize: 25, textAlign: "center" }}>
+              Banpu App Portal
+            </Text>
             <TouchableOpacity style={{ marginTop: 30 }}>
               <TextInput
                 maxLength={100}
@@ -145,8 +148,9 @@ const styles = StyleSheet.create({
     justifyContent: "center"
   },
   containerView: {
-    marginTop: 30,
-    padding: 30,
+    marginTop: 75,
+    paddingHorizontal: 30,
+    paddingBottom: 30,
     borderRadius: 15,
     borderColor: "#482f92",
     backgroundColor: "#ffffff"
@@ -155,7 +159,7 @@ const styles = StyleSheet.create({
     width: 150,
     height: 150,
     borderRadius: 100,
-    marginTop: -100,
+    marginTop: -75,
     justifyContent: "center",
     alignItems: "center",
     alignSelf: "center",

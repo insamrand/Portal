@@ -51,9 +51,9 @@ export default class LoginPage extends Component<any, IState> {
     let phoneNumber = "";
 
     if (Platform.OS === "android") {
-      phoneNumber = "tel:${1234567890}";
+      phoneNumber = "tel:${0811862100}";
     } else {
-      phoneNumber = "telprompt:${1234567890}";
+      phoneNumber = "telprompt:${0811862100}";
     }
 
     Linking.openURL(phoneNumber);
@@ -171,7 +171,7 @@ export default class LoginPage extends Component<any, IState> {
                   textDecorationLine: "underline"
                 }}
               >
-                (xxx) xxx-xxxx
+                (081) 186-2100
               </Text>
             </TouchableOpacity>
           </View>
@@ -200,8 +200,9 @@ const styles = StyleSheet.create({
     justifyContent: "center"
   },
   containerView: {
-    marginTop: 30,
-    padding: 30,
+    marginTop: 75,
+    paddingHorizontal: 30,
+    paddingBottom: 30,
     borderRadius: 15,
     borderColor: "#482f92",
     backgroundColor: "#ffffff"
@@ -210,7 +211,7 @@ const styles = StyleSheet.create({
     width: 150,
     height: 150,
     borderRadius: 100,
-    marginTop: -100,
+    marginTop: -75,
     justifyContent: "center",
     alignItems: "center",
     alignSelf: "center",
