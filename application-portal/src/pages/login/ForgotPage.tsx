@@ -11,12 +11,30 @@ import {
   Linking,
   ScrollView
 } from "react-native";
+import { connect } from 'react-redux';
+import Actions from '../../redux/actions/Forgot.Action';
 
 //**  Usage : */
 // {this.props.nameProps},{this.props.lastnameProps}
 // {this.state.name},{this.state.lastName}
 
-export default class ForgotPage extends Component<any> {
+const mapStateToProps = (state) => ({
+  
+})
+
+const mapDispatchToProps = (dispatch) => ({
+  forgot: email => dispatch(Actions.Forgot(email))
+})
+
+
+
+ class ForgotPage extends Component<any> {
+
+  state = {
+    email: "",
+    code_count: 10
+  };
+
   static navigationOptions = {
     title: "Forgot Password",
     headerStyle: {
@@ -40,11 +58,21 @@ export default class ForgotPage extends Component<any> {
     Linking.openURL(phoneNumber);
   };
 
-  // onPressLogin = (text: string) => {
-  //   this.setState({ status: true });
-  //   Alert.alert("Success", this.state.email + " " + text);
-  //   // Actions.landing();
-  // };
+  getcode() {
+
+    setInterval(()=>{
+      if(this.state.code_count>0){
+        this.setState({
+          code_count: this.state.code_count - 1
+        })
+        console.log(this.state.code_count);
+      }else{
+        this.setState({
+          code_count: ''
+        })
+      }  
+    },1000)
+  }
 
   render() {
     //** Before Usage : */
@@ -88,11 +116,19 @@ export default class ForgotPage extends Component<any> {
             <View style={borderLine}>
               <TouchableOpacity
                 style={containerButton}
-                onPress={() => this.props.navigation.navigate("RedeemPage")}
+                onPress={() => {
+                  // this.props.forgot(this.state.email)
+                  // this.props.navigation.navigate("RedeemPage")
+                  this.getcode()
+                }}
               >
-                <Text style={textButton}>Get Code</Text>
+                <Text style={textButton}>Get Code{'\u00A0'}   
+                   {this.state.code_count}
+                </Text>
               </TouchableOpacity>
             </View>
+           
+            
           </View>
           <View style={containerContact}>
             <Text style={{ fontSize: 12 }}>Contact </Text>
@@ -129,6 +165,11 @@ export default class ForgotPage extends Component<any> {
     );
   }
 }
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ForgotPage);
 
 const styles = StyleSheet.create({
   containerFluid: {

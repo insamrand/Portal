@@ -1,100 +1,20 @@
 import React, { Component } from "react";
-import { Text, View, Image, StyleSheet } from "react-native";
+import PropTypes from "prop-types";
+import { StyleSheet, View, Image, Text } from "react-native";
+import { Container, Content, List, ListItem, Item } from "native-base";
+import { connect } from "react-redux";
 
-interface IState {
-  AppItem: any[];
-}
-
-export default class HomeItems extends Component<IState> {
-  state: IState;
-
+export class HomeItems extends Component<any> {
   render() {
-    this.state = {
-      AppItem: [
-        {
-          name: "snapchat",
-          img:
-            "https://images.pexels.com/photos/1236701/pexels-photo-1236701.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260",
-        },
-        {
-          name: "snapchat",
-          img:
-            "https://images.pexels.com/photos/1236701/pexels-photo-1236701.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260",
-        },
-        {
-          name: "snapchat",
-          img:
-            "https://images.pexels.com/photos/1236701/pexels-photo-1236701.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260",
-        },
-        {
-          name: "snapchat",
-          img:
-            "https://images.pexels.com/photos/1236701/pexels-photo-1236701.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260",
-        },
-        {
-          name: "snapchat",
-          img:
-            "https://images.pexels.com/photos/1236701/pexels-photo-1236701.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260",
-        },
-        {
-          name: "snapchat",
-          img:
-            "https://images.pexels.com/photos/1236701/pexels-photo-1236701.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260",
-        },
-        {
-          name: "snapchat",
-          img:
-            "https://images.pexels.com/photos/1236701/pexels-photo-1236701.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260",
-        },
-        {
-          name: "snapchat",
-          img:
-            "https://images.pexels.com/photos/1236701/pexels-photo-1236701.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260",
-        },
-        {
-          name: "snapchat",
-          img:
-            "https://images.pexels.com/photos/1236701/pexels-photo-1236701.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260",
-        },
-        {
-          name: "snapchat",
-          img:
-            "https://images.pexels.com/photos/1236701/pexels-photo-1236701.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260",
-        },
-        {
-          name: "snapchat",
-          img:
-            "https://images.pexels.com/photos/1236701/pexels-photo-1236701.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260",
-        },
-        {
-          name: "snapchat",
-          img:
-            "https://images.pexels.com/photos/1236701/pexels-photo-1236701.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260",
-        },
-        {
-          name: "snapchat",
-          img:
-            "https://images.pexels.com/photos/1236701/pexels-photo-1236701.jpeg?auto=compress&cs=tinysrgb&h=750&w=1260",
-        }
-      ]
-    };
     return (
-      <View
-        style={{
-          flexDirection: "row",
-          flexWrap: "wrap"
-        }}
-      >
-        {this.state.AppItem.map((item, index) => {
+      <View style={styles.flexContainer}>
+        {this.props.items.map((item, index) => {
           return (
-            <View key={index} style={styles.flexItems}>
+            <View style={styles.flexItems} key={index}>
               <View style={{ marginBottom: 10 }}>
-                <Image
-                  style={{ width: 75, height: 75 }}
-                  source={{ uri: item.img }}
-                />
+                <Image style={{ width: 75, height: 75 }} source={item.image} />
               </View>
-              <Text style={{ fontSize: 12 }}>{item.name}</Text>
+              <Text style={{ fontSize: 12 }}>{item.title}</Text>
             </View>
           );
         })}
@@ -104,6 +24,10 @@ export default class HomeItems extends Component<IState> {
 }
 
 const styles = StyleSheet.create({
+  flexContainer: {
+    flexDirection: "row",
+    flexWrap: "wrap"
+  },
   flexItems: {
     width: "33.33%",
     paddingVertical: 20,
@@ -111,3 +35,16 @@ const styles = StyleSheet.create({
     alignItems: "center"
   }
 });
+
+const mapStateToProps = (state: any) => {
+  return {
+    items: state.home.items
+  };
+};
+
+const mapDispatchToProps = {};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(HomeItems);

@@ -8,18 +8,18 @@ import { AppInstalledChecker, CheckPackageInstallation } from 'react-native-chec
 import { Button, Text, Footer, Content, FooterTab } from "native-base";
 import { createAppContainer } from "react-navigation";
 import { createStackNavigator } from "react-navigation-stack";
+import { Provider } from "react-redux";
+import configureStore from "./src/redux/stores";
+
 import LoginPage from "./src/pages/login/LoginPage";
 import ForgotPage from "./src/pages/login/ForgotPage";
 import RedeemPage from "./src/pages/login/RedeemPage";
 import HomePage from "./src/pages/home/HomePage";
 
-interface IProps {}
-
-interface IState {
-  isReady: boolean;
-}
+const store = configureStore();
 
 const AppNavigator = createStackNavigator({
+  
   LoginPage: { screen: LoginPage },
   ForgotPage: { screen: ForgotPage },
   RedeemPage: { screen: RedeemPage },
@@ -29,8 +29,8 @@ const AppNavigator = createStackNavigator({
 
 const AppContainer = createAppContainer(AppNavigator);
 
-export default class App extends Component<IProps, IState> {
-  readonly state: IState = {
+export default class App extends Component<any> {
+  readonly state = {
     isReady: false
   };
   buttonClick = () => {};
@@ -49,47 +49,9 @@ export default class App extends Component<IProps, IState> {
     }
 
     return (
-      <AppContainer/>
-      // <View>
-      //   <Button
-      //     style={{ marginTop: 50 }}
-      //     full
-      //     onPress={
-      //       (this.buttonClick = () => {
-      //         if (Platform.OS == "android") {
-    
-      //           Linking.canOpenURL('whatsapp').then(res=>{
-      //            if(res==true){
-      //             Linking.openURL('whatsapp://send')
-      //             console.log(res);
-      //            }else{
-      //             Linking.openURL('https://lihweb.banpu.co.th/mobile/package/LIH-Production.apk')
-      //             console.log(res);   
-      //            }
-                 
-      //           })
-          
-      //         } else {
-      //           console.log("ios");
-                
-      //         }
-      //       })
-      //     }
-      //   >
-      //     <Text>Whatapp check install</Text>
-          
-      //   </Button>
-
-      //   <Text
-      //     style={{
-      //       alignItems: "center",
-      //       textAlign: "center",
-      //       alignSelf: "center"
-      //     }}
-      //   >
-      //     Platform is {Platform.OS}
-      //   </Text>
-      // </View>
+      <Provider store={store}>
+        <AppContainer />
+      </Provider>
     );
   }
 }

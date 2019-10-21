@@ -11,12 +11,29 @@ import {
   Linking,
   ScrollView
 } from "react-native";
-
+import { connect } from 'react-redux'
+import Actions from '../../redux/actions/redeem.Actions';
 //**  Usage : */
 // {this.props.nameProps},{this.props.lastnameProps}
 // {this.state.name},{this.state.lastName}
 
-export default class ForgotPage extends Component<any> {
+const mapStateToProps = (state) => ({
+  
+})
+
+const mapDispatchToProps = (dispatch) => ({
+  redeem: redeemCode => dispatch(Actions.REDEEM(redeemCode))
+})
+
+
+ class RedeemPage extends Component<any> {
+ 
+  componentDidMount() {
+    this.state = {
+      redeemCode: "",
+    };
+  }
+
   static navigationOptions = {
     title: "Redeem Code",
     headerStyle: {
@@ -82,13 +99,16 @@ export default class ForgotPage extends Component<any> {
                 maxLength={100}
                 style={containerInput}
                 placeholder="Enter Code"
-                onChangeText={email => this.setState({ email })}
+                onChangeText={redeemCode => this.setState({ redeemCode })}
               />
             </TouchableOpacity>
             <View style={borderLine}>
               <TouchableOpacity
                 style={containerButton}
-                onPress={() => this.props.navigation.navigate("HomePage")}
+                onPress={() => {
+                  this.props.redeem(this.state.redeemCode)
+                  this.props.navigation.navigate("HomePage")
+                }}
               >
                 <Text style={textButton}>Continue</Text>
               </TouchableOpacity>
@@ -129,6 +149,11 @@ export default class ForgotPage extends Component<any> {
     );
   }
 }
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(RedeemPage);
 
 const styles = StyleSheet.create({
   containerFluid: {

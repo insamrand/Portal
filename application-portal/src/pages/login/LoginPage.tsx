@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, Dispatch } from "react";
 import {
   StyleSheet,
   SafeAreaView,
@@ -12,18 +12,31 @@ import {
   Linking,
   ScrollView
 } from "react-native";
+import Actions from "../../redux/actions/Login.Actions";
+import { connect } from "react-redux";
+import { Item, Label, Input } from "native-base";
+import HomePage from "../home/HomePage";
 
 //**  Usage : */
 // {this.props.nameProps},{this.props.lastnameProps}
 // {this.state.name},{this.state.lastName}
 
-interface IState {
-  userName?: string;
-  passWord?: string;
-  status?: boolean;
-}
+const mapStateToProps = state => ({});
 
-export default class LoginPage extends Component<any, IState> {
+const mapDispatchToProps = dispatch => {
+  return {
+    Login: user => dispatch(Actions.Login(user))
+  };
+};
+
+class LoginPage extends Component<any> {
+  componentDidMount() {
+    this.state = {
+      email: "",
+      password: ""
+    };
+  }
+
   static navigationOptions = {
     title: "Login",
     headerLeft: null,
@@ -36,20 +49,8 @@ export default class LoginPage extends Component<any, IState> {
     }
   };
 
-  public static defaultProps = {
-    inputName1: "Email",
-    inputName2: "Password"
-  };
-
-  state: IState = {
-    userName: "",
-    passWord: "",
-    status: false
-  };
-
   dialCall = () => {
     let phoneNumber = "";
-
     if (Platform.OS === "android") {
       phoneNumber = "tel:${1234567890}";
     } else {
@@ -59,22 +60,6 @@ export default class LoginPage extends Component<any, IState> {
     Linking.openURL(phoneNumber);
   };
 
-  // onPressLogin = (text: string) => {
-  //   this.setState({ status: true });
-  //   Alert.alert("Success", this.state.userName + " " + text);
-  //   // Actions.landing();
-  // };
-  onPressLogin = () => {
-    Alert.alert("Success", this.state.userName);
-    if (this.state.userName !== "abc") {
-      setTimeout(() => {
-        this.props.navigation.navigate("HomePage");
-      });
-    } else {
-      Alert.alert("Login Fail", "Unknow" + " " + this.state.userName);
-    }
-  };
-
   render() {
     //** Before Usage : */
     // {this.props.nameProps}
@@ -82,8 +67,6 @@ export default class LoginPage extends Component<any, IState> {
 
     //** Now Usage : */
     // {nameProps}
-
-    const { inputName1, inputName2 } = this.props;
 
     const {
       containerFluid,
@@ -115,8 +98,12 @@ export default class LoginPage extends Component<any, IState> {
               <TextInput
                 maxLength={100}
                 style={containerInput}
-                placeholder={inputName1}
-                onChangeText={userName => this.setState({ userName })}
+                placeholder="Email"
+                onChangeText={email =>
+                  this.setState({
+                    email: email
+                  })
+                }
               />
             </TouchableOpacity>
             <TouchableOpacity style={{ marginTop: 30 }}>
@@ -124,14 +111,26 @@ export default class LoginPage extends Component<any, IState> {
                 style={containerInput}
                 maxLength={100}
                 secureTextEntry={true}
-                placeholder={inputName2}
-                onChangeText={passWord => this.setState({ passWord })}
+                placeholder="password"
+                onChangeText={password =>
+                  this.setState({
+                    password: password
+                  })
+                }
               />
             </TouchableOpacity>
             <View style={borderLine}>
               <TouchableOpacity
                 style={containerButton}
-                onPress={() => this.props.navigation.navigate("HomePage")}
+                onPress={() => {
+                  let user = {
+                    email: this.state.email,
+                    password: this.state.password
+                  };
+
+                  this.props.Login(user);
+                  this.props.navigation.navigate("HomePage");
+                }}
               >
                 <Text style={textButton}>Login</Text>
               </TouchableOpacity>
@@ -181,9 +180,10 @@ export default class LoginPage extends Component<any, IState> {
   }
 }
 
-const mapStateToProps = state => ({});
-
-const mapDispatchToProps = {};
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(LoginPage);
 
 const styles = StyleSheet.create({
   containerFluid: {

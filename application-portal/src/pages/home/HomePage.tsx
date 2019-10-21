@@ -5,19 +5,37 @@ import {
   Text,
   SafeAreaView,
   ScrollView,
-  BackHandler
+  BackHandler,
+  TouchableOpacity
 } from "react-native";
 import HomeItems from "./HomeItems";
-import { TouchableOpacity } from "react-native-gesture-handler";
 
 export default class HomePage extends Component<any> {
+  [x: string]: any;
+
+  // componentWillMount() {
+  //   this.backHandler = BackHandler.addEventListener(null, () => {
+  //     return true;
+  //   });
+  // }
+
+  // componentWillUnmount() {
+  //   this.backHandler.remove();
+  // }
+
   componentWillMount() {
-    BackHandler.addEventListener("hardwareBackPress", () => {
-      // this.onMainScreen and this.goBack are just examples, you need to use your own implementation here
-      // Typically you would use the navigator here to go to the last state.
-      return true;
-    });
-  }
+    BackHandler.addEventListener('hardwareBackPress', this.handleBackButton);
+}
+
+componentWillUnmount() {
+    BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton);
+}
+
+handleBackButton = () => {
+    //add your code
+  BackHandler.exitApp()
+    return true;
+};
 
   static navigationOptions = ({ navigation }) => ({
     title: "Portal Application",
@@ -44,15 +62,6 @@ export default class HomePage extends Component<any> {
       </TouchableOpacity>
     )
   });
-
-  _Logout() {
-    () => this.props.navigation.navigate("LogoutPage");
-    console.log("WOrk");
-  }
-
-  componentDidMount() {
-    this.props.navigation.setParams({ Logout: this._Logout });
-  }
 
   render() {
     return (
@@ -81,9 +90,7 @@ export default class HomePage extends Component<any> {
             height: '100%'
           }}
         >
-   
-          <HomeItems/>
-  
+          <HomeItems />
         </ScrollView>
      
         
