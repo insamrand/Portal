@@ -8,7 +8,7 @@ import {
   ScrollView,
   BackHandler,
   TouchableOpacity,
-  Linking
+  Alert
 } from "react-native";
 import { connect } from "react-redux";
 import HomeItems from "./HomeItems";
@@ -27,15 +27,8 @@ class HomePage extends Component<any> {
     return true;
   };
 
-  // _handleOpenWithLinking = () => {
-  //   Linking.canOpenURL("fb://").then(supported => {
-  //     if (supported) {
-  //       return Linking.openURL("fb://");
-  //     } else {
-  //       return Linking.openURL("https://www.facebook.com/");
-  //     }
-  //   });
-  // };
+  _Logout = () => {};
+
   static navigationOptions = ({ navigation }) => ({
     title: "Portal Application",
     gesturesEnabled: false,
@@ -48,7 +41,26 @@ class HomePage extends Component<any> {
       fontWeight: "bold"
     },
     headerRight: (
-      <TouchableOpacity onPress={() => navigation.navigate("LoginPage")}>
+      <TouchableOpacity
+        onPress={() =>
+          Alert.alert(
+            "Sign Out",
+            "Do you want to sign out?",
+            [
+              {
+                text: "Cancel",
+                onPress: () => console.log("Cancel Pressed"),
+                style: "cancel"
+              },
+              {
+                text: "OK",
+                onPress: () => navigation.navigate("LoginPage")
+              }
+            ],
+            { cancelable: false }
+          )
+        }
+      >
         <Image
           style={styles.imageLogout}
           source={require("../../../assets/images/icon/logout.png")}
@@ -77,13 +89,6 @@ class HomePage extends Component<any> {
           <View style={styles.containerItems}>
             <HomeItems {...this.props} />
           </View>
-          <TouchableOpacity
-            onPress={() => {
-              console.log("Work");
-            }}
-          >
-            <Text>Console.Log</Text>
-          </TouchableOpacity>
         </ScrollView>
       </SafeAreaView>
     );

@@ -7,23 +7,12 @@ import {
   TextInput,
   Image,
   TouchableOpacity,
-  Alert,
-  Platform,
-  Linking,
   ScrollView
 } from "react-native";
+import { connect } from "react-redux";
+import PleaseContact from "../../components/PleaseContact";
 
-//**  Usage : */
-// {this.props.nameProps},{this.props.lastnameProps}
-// {this.state.name},{this.state.lastName}
-
-interface IState {
-  userName?: string;
-  passWord?: string;
-  status?: boolean;
-}
-
-export default class LoginPage extends Component<any, IState> {
+class LoginPage extends Component<any> {
   static navigationOptions = {
     title: "Login",
     headerLeft: null,
@@ -36,73 +25,38 @@ export default class LoginPage extends Component<any, IState> {
     }
   };
 
-  public static defaultProps = {
-    inputName1: "Email",
-    inputName2: "Password"
+  state = {
+    email: "",
+    password: ""
   };
-
-  state: IState = {
-    userName: "",
-    passWord: "",
-    status: false
+  _onPressLogin = () => {
+    this.props.navigation.navigate("HomePage");
   };
-
-  dialCall = () => {
-    let phoneNumber = "";
-
-    if (Platform.OS === "android") {
-      phoneNumber = "tel:${0811862100}";
-    } else {
-      phoneNumber = "telprompt:${0811862100}";
-    }
-
-    Linking.openURL(phoneNumber);
-  };
-
-  // onPressLogin = (text: string) => {
-  //   this.setState({ status: true });
-  //   Alert.alert("Success", this.state.userName + " " + text);
-  //   // Actions.landing();
+  // _onPressLogin = () => {
+  //   if (this.state.email != this.props.login.users[0].email) {
+  //     return Alert.alert("Login Fail", "Invalid Email");
+  //   } else if (this.state.password != this.props.login.users[0].password) {
+  //     return Alert.alert("Login Fail", "Invalid Password");
+  //   } else {
+  //     return Alert.alert(
+  //       "Login Success",
+  //       "Welcome" + " " + this.props.login.users[0].name,
+  //       [
+  //         {
+  //           text: "OK",
+  //           onPress: () => this.props.navigation.navigate("HomePage")
+  //         }
+  //       ],
+  //       { cancelable: false }
+  //     );
+  //   }
   // };
-  onPressLogin = () => {
-    Alert.alert("Success", this.state.userName);
-    if (this.state.userName !== "abc") {
-      setTimeout(() => {
-        this.props.navigation.navigate("HomePage");
-      });
-    } else {
-      Alert.alert("Login Fail", "Unknow" + " " + this.state.userName);
-    }
-  };
-
   render() {
-    //** Before Usage : */
-    // {this.props.nameProps}
-    // No need to use old style
-
-    //** Now Usage : */
-    // {nameProps}
-
-    const { inputName1, inputName2 } = this.props;
-
-    const {
-      containerFluid,
-      containerColor,
-      containerScrollView,
-      containerView,
-      containerImage,
-      containerInput,
-      borderLine,
-      containerButton,
-      textButton,
-      containerForgot,
-      containerContact
-    } = styles;
     return (
-      <SafeAreaView style={[containerFluid, containerColor]}>
-        <ScrollView contentContainerStyle={containerScrollView}>
-          <View style={containerView}>
-            <View style={containerImage}>
+      <SafeAreaView style={[styles.containerFluid, styles.containerColor]}>
+        <ScrollView contentContainerStyle={styles.containerScrollView}>
+          <View style={styles.containerView}>
+            <View style={styles.containerImage}>
               <Image
                 style={{ width: 42, height: 100 }}
                 source={require("../../../assets/images/banpu_logo.png")}
@@ -114,76 +68,43 @@ export default class LoginPage extends Component<any, IState> {
             <TouchableOpacity style={{ marginTop: 30 }}>
               <TextInput
                 maxLength={100}
-                style={containerInput}
-                placeholder={inputName1}
-                onChangeText={userName => this.setState({ userName })}
+                style={styles.containerInput}
+                placeholder="Email"
+                onChangeText={email => this.setState({ email })}
               />
             </TouchableOpacity>
             <TouchableOpacity style={{ marginTop: 30 }}>
               <TextInput
-                style={containerInput}
+                style={styles.containerInput}
                 maxLength={100}
                 secureTextEntry={true}
-                placeholder={inputName2}
-                onChangeText={passWord => this.setState({ passWord })}
+                placeholder="password"
+                onChangeText={password => this.setState({ password })}
               />
             </TouchableOpacity>
-            <View style={borderLine}>
+            <View style={styles.borderLine}>
               <TouchableOpacity
-                style={containerButton}
-                onPress={() => this.props.navigation.navigate("HomePage")}
+                style={styles.containerButton}
+                onPress={this._onPressLogin}
               >
-                <Text style={textButton}>Login</Text>
+                <Text style={styles.textButton}>Login</Text>
               </TouchableOpacity>
             </View>
           </View>
           <TouchableOpacity
-            style={containerForgot}
+            style={styles.containerForgot}
             onPress={() => this.props.navigation.navigate("ForgotPage")}
           >
             <Text style={{ fontSize: 14, color: "#482f92" }}>
               Forgot Password ?
             </Text>
           </TouchableOpacity>
-          <View style={containerContact}>
-            <Text style={{ fontSize: 12 }}>Contact </Text>
-            <Text
-              style={{ fontSize: 14, color: "#482f92" }}
-              onPress={() =>
-                Linking.openURL("https://www.banpuinfinergy.co.th/")
-              }
-            >
-              BANPU
-            </Text>
-            <Text style={{ fontSize: 12 }}> Support at : </Text>
-            <Image
-              style={{ width: 20, height: 20 }}
-              source={{
-                uri:
-                  "https://img.icons8.com/ios-glyphs/30/000000/phone-disconnected.png"
-              }}
-            />
-            <TouchableOpacity onPress={this.dialCall}>
-              <Text
-                style={{
-                  fontSize: 14,
-                  color: "#482f92",
-                  textDecorationLine: "underline"
-                }}
-              >
-                (081) 186-2100
-              </Text>
-            </TouchableOpacity>
-          </View>
+          <PleaseContact />
         </ScrollView>
       </SafeAreaView>
     );
   }
 }
-
-const mapStateToProps = state => ({});
-
-const mapDispatchToProps = {};
 
 const styles = StyleSheet.create({
   containerFluid: {
@@ -249,12 +170,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center"
   },
-  containerContact: {
-    flexDirection: "row",
-    marginTop: 30,
-    justifyContent: "center",
-    alignItems: "center"
-  },
   boxShadow: {
     overflow: "hidden",
     shadowColor: "#000",
@@ -267,3 +182,17 @@ const styles = StyleSheet.create({
     elevation: 1
   }
 });
+
+const mapStateToProps = (state: any) => {
+  console.log(state.login);
+  return {
+    login: state.login
+  };
+};
+
+const mapDispatchToProps = {};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(LoginPage);

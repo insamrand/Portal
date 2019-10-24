@@ -7,16 +7,14 @@ import {
   TextInput,
   Image,
   TouchableOpacity,
-  Platform,
-  Linking,
-  ScrollView
+  ScrollView,
+  Modal
 } from "react-native";
+import { connect } from "react-redux";
+import Actions from "../../redux/actions/Forgot.Action";
+import PleaseContact from "../../components/PleaseContact";
 
-//**  Usage : */
-// {this.props.nameProps},{this.props.lastnameProps}
-// {this.state.name},{this.state.lastName}
-
-export default class ForgotPage extends Component<any> {
+class ForgotPage extends Component<any> {
   static navigationOptions = {
     title: "Forgot Password",
     headerStyle: {
@@ -28,50 +26,39 @@ export default class ForgotPage extends Component<any> {
     }
   };
 
-  dialCall = () => {
-    let phoneNumber = "";
-
-    if (Platform.OS === "android") {
-      phoneNumber = "tel:${1234567890}";
-    } else {
-      phoneNumber = "telprompt:${1234567890}";
-    }
-
-    Linking.openURL(phoneNumber);
+  state = {
+    email: "",
+    btnVisible: false,
+    counter: 5,
+    modalVisible: false
   };
 
-  // onPressLogin = (text: string) => {
-  //   this.setState({ status: true });
-  //   Alert.alert("Success", this.state.email + " " + text);
-  //   // Actions.landing();
-  // };
+  setModalVisible(visible) {
+    this.setState({ modalVisible: visible });
+  }
+  _btnHandle = () => {
+    // this.props.navigation.navigate("RedeemPopup");
+    this.setModalVisible(true);
+    let x = setInterval(() => {
+      console.log(this.state.counter);
+      // let y = this.state.counter - 1;
+      // this.setState({ counter: y });
+      this.setState({ btnVisible: true });
+      if (this.state.counter === 0) {
+        this.setState({ btnVisible: false, counter: 5 });
+        clearInterval(x);
+      } else {
+        this.setState({ counter: --this.state.counter });
+      }
+    }, 1000);
+  };
 
   render() {
-    //** Before Usage : */
-    // {this.props.nameProps}
-    // No need to use old style
-
-    //** Now Usage : */
-    // {nameProps}
-
-    const {
-      containerFluid,
-      containerColor,
-      containerScrollView,
-      containerView,
-      containerImage,
-      containerInput,
-      borderLine,
-      containerButton,
-      textButton,
-      containerForgot,
-      containerContact
-    } = styles;
     return (
-      <SafeAreaView style={[containerFluid, containerColor]}>
-        <ScrollView contentContainerStyle={containerScrollView}>
-          <View style={containerView}>
-            <View style={containerImage}>
+      <SafeAreaView style={[styles.containerFluid, styles.containerColor]}>
+        <ScrollView contentContainerStyle={styles.containerScrollView}>
+          <View style={styles.containerView}>
+            <View style={styles.containerImage}>
               <Image
                 style={{ width: 42, height: 100 }}
                 source={require("../../../assets/images/banpu_logo.png")}
@@ -83,50 +70,75 @@ export default class ForgotPage extends Component<any> {
             <TouchableOpacity style={{ marginTop: 30 }}>
               <TextInput
                 maxLength={100}
-                style={containerInput}
+                style={styles.containerInput}
                 placeholder="Email"
                 onChangeText={email => this.setState({ email })}
               />
             </TouchableOpacity>
-            <View style={borderLine}>
+            <View style={styles.borderLine}>
               <TouchableOpacity
-                style={containerButton}
-                onPress={() => this.props.navigation.navigate("RedeemPage")}
-              >
-                <Text style={textButton}>Get Code</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-          <View style={containerContact}>
-            <Text style={{ fontSize: 12 }}>Contact </Text>
-            <Text
-              style={{ fontSize: 14, color: "#482f92" }}
-              onPress={() =>
-                Linking.openURL("https://www.banpuinfinergy.co.th/")
-              }
-            >
-              BANPU
-            </Text>
-            <Text style={{ fontSize: 12 }}> Support at : </Text>
-            <Image
-              style={{ width: 20, height: 20 }}
-              source={{
-                uri:
-                  "https://img.icons8.com/ios-glyphs/30/000000/phone-disconnected.png"
-              }}
-            />
-            <TouchableOpacity onPress={this.dialCall}>
-              <Text
-                style={{
-                  fontSize: 14,
-                  color: "#482f92",
-                  textDecorationLine: "underline"
+                disabled={this.state.btnVisible}
+                style={[
+                  styles.containerButton,
+                  this.state.btnVisible
+                    ? styles.disableButton
+                    : styles.enableButton
+                ]}
+                onPress={() => {
+                  this._btnHandle();
                 }}
               >
-                (xxx) xxx-xxxx
-              </Text>
-            </TouchableOpacity>
+                <Text style={styles.textButton}>
+                  Get Code
+                  {this.state.btnVisible
+                    ? " ( " + this.state.counter + " ) "
+                    : null}
+                </Text>
+              </TouchableOpacity>
+            </View>
+            <Modal
+              transparent={true}
+              visible={this.state.modalVisible}
+              animationType={"slide"}
+              onRequestClose={() => this.setModalVisible(true)}
+            >
+              <View style={styles.modalContainer}>
+                <View style={styles.innerContainer}>
+                  <Text style={{ fontSize: 25, textAlign: "center" }}>
+                    Redeem Code
+                  </Text>
+                  <View style={styles.modalLine}>
+                    <TouchableOpacity>
+                      <TextInput
+                        maxLength={100}
+                        style={styles.containerInput}
+                        placeholder="Enter Code"
+                        onChangeText={redeemCode =>
+                          this.setState({ redeemCode })
+                        }
+                      />
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      style={styles.modalButton}
+                      onPress={() => {
+                        this.props.navigation.navigate("HomePage");
+                        this.setModalVisible(false);
+                      }}
+                    >
+                      <Text style={styles.textButton}>Continue</Text>
+                    </TouchableOpacity>
+                  </View>
+                  <TouchableOpacity
+                    onPress={() => this.setModalVisible(false)}
+                    style={styles.containerExit}
+                  >
+                    <Text style={styles.textExit}>X</Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            </Modal>
           </View>
+          <PleaseContact />
         </ScrollView>
       </SafeAreaView>
     );
@@ -182,36 +194,65 @@ const styles = StyleSheet.create({
     borderColor: "#482f92"
   },
   containerButton: {
-    backgroundColor: "#482f92",
     paddingVertical: 12,
-    paddingHorizontal: 100,
     borderRadius: 50
+  },
+  enableButton: {
+    backgroundColor: "#482f92"
+  },
+  disableButton: {
+    backgroundColor: "#a0a0a0"
   },
   textButton: {
     color: "#ffffff",
     fontSize: 15,
     alignSelf: "center"
   },
-  containerForgot: {
-    marginTop: 20,
+  modalContainer: {
+    flex: 1,
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
+    backgroundColor: "rgba(0,0,0,0.7)"
   },
-  containerContact: {
-    flexDirection: "row",
+  innerContainer: {
+    borderRadius: 15,
+    justifyContent: "center",
+    alignSelf: "center",
+    alignItems: "center",
+    padding: 20,
+    backgroundColor: "rgba(255,255,255,1)"
+  },
+  modalButton: {
     marginTop: 30,
-    justifyContent: "center",
-    alignItems: "center"
+    backgroundColor: "#482f92",
+    paddingVertical: 12,
+    paddingHorizontal: 100,
+    borderRadius: 50
   },
-  boxShadow: {
-    overflow: "hidden",
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 1
-    },
-    shadowOpacity: 0.18,
-    shadowRadius: 1.0,
-    elevation: 1
+  modalLine: {
+    marginTop: 10,
+    paddingTop: 30,
+    borderTopWidth: 2,
+    borderColor: "#482f92"
+  },
+  containerExit: {
+    position: "absolute",
+    top: -2,
+    right: 5
+  },
+  textExit: {
+    fontSize: 20,
+    fontWeight: "bold"
   }
 });
+
+const mapStateToProps = state => ({});
+
+const mapDispatchToProps = dispatch => ({
+  forgot: email => dispatch(Actions.Forgot(email))
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ForgotPage);

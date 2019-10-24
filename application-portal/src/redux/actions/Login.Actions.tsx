@@ -1,4 +1,5 @@
 const Types = {
+  LOGIN: "LOGIN",
   APP_READY: "APP_READY"
 };
 
@@ -9,7 +10,15 @@ const appReady = () => {
   };
 };
 
+const Login = () => {
+  return {
+    type: Types.LOGIN,
+    payload: {}
+  };
+};
+
 export default {
   Types,
-  appReady
+  appReady,
+  Login
 };
