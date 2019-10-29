@@ -9,6 +9,12 @@ export default (state = initialState, { type, payload }) => {
     case Actions.Types.LOGIN:
       return { ...state, ...payload };
 
+    case Actions.Types.SET_EMAIL:
+      return { ...state, ...payload };
+
+    case Actions.Types.SET_PASS:
+      return { ...state, ...payload };
+
     case "typeName":
       return { ...state, ...payload };
 

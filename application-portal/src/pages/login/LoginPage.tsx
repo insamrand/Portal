@@ -7,9 +7,11 @@ import {
   TextInput,
   Image,
   TouchableOpacity,
-  ScrollView
+  ScrollView,
+  Alert
 } from "react-native";
 import { connect } from "react-redux";
+import Actions from "../../redux/actions/Login.Actions";
 import PleaseContact from "../../components/PleaseContact";
 
 class LoginPage extends Component<any> {
@@ -29,6 +31,7 @@ class LoginPage extends Component<any> {
     email: "",
     password: ""
   };
+
   _onPressLogin = () => {
     this.props.navigation.navigate("HomePage");
   };
@@ -190,7 +193,11 @@ const mapStateToProps = (state: any) => {
   };
 };
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = (dispatch: any) => {
+  return {
+    // setEmail: () => dispatch(Actions.setEmail(email))
+  };
+};
 
 export default connect(
   mapStateToProps,

@@ -232,8 +232,7 @@ const styles = StyleSheet.create({
   modalLine: {
     marginTop: 10,
     paddingTop: 30,
-    borderTopWidth: 2,
-    borderColor: "#482f92"
+    borderTopWidth: 2
   },
   containerExit: {
     position: "absolute",

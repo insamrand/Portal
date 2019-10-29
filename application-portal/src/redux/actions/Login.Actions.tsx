@@ -1,6 +1,8 @@
 const Types = {
   LOGIN: "LOGIN",
-  APP_READY: "APP_READY"
+  APP_READY: "APP_READY",
+  SET_EMAIL: "SET_EMAIL",
+  SET_PASS: "SET_PASS"
 };
 
 const appReady = () => {
@@ -10,15 +12,30 @@ const appReady = () => {
   };
 };
 
-const Login = () => {
+const Login = (users: any) => {
   return {
     type: Types.LOGIN,
-    payload: {}
+    payload: users
+  };
+};
+const setEmail = (email: any) => {
+  return {
+    type: Types.SET_EMAIL,
+    payload: email
+  };
+};
+
+const setPass = (password: any) => {
+  return {
+    type: Types.SET_PASS,
+    payload: password
   };
 };
 
 export default {
   Types,
   appReady,
-  Login
+  Login,
+  setEmail,
+  setPass
 };

@@ -27,7 +27,6 @@ class HomePage extends Component<any> {
     return true;
   };
 
-  _Logout = () => {};
 
   static navigationOptions = ({ navigation }) => ({
     title: "Portal Application",
@@ -54,7 +53,10 @@ class HomePage extends Component<any> {
               },
               {
                 text: "OK",
-                onPress: () => navigation.navigate("LoginPage")
+                onPress: () => {
+                  navigation.navigate("LoginPage");
+                  BackHandler.exitApp();
+                }
               }
             ],
             { cancelable: false }
